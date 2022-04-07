@@ -51,7 +51,7 @@ export default function DownloadContent() {
 
         axios.request(reqOptions as object).then((res: any) => {
             console.log(res);
-            FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${selectQuality.vidype}`)
+            FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${isIpad || isIphone || isMac ? '.MOV' : selectQuality.vidype}`)
             setDownloadingProgress(100)
         }).then(() => {
             setdownloadUrl('')
@@ -177,7 +177,7 @@ export default function DownloadContent() {
                                         </span>
                                     </div>
                                     <div className="w-full h-4 bg-gray-400 rounded-full mt-3">
-                                        <div className=" h-full text-center text-xs text-white bg-teal-700 rounded-full shadow-md shadow-teal-300" style={{ width: `${downloadingProgress}%` }}>
+                                        <div className=" h-full text-center text-xs text-white bg-teal-700 rounded-full shadow-sm shadow-teal-300" style={{ width: `${downloadingProgress}%` }}>
                                             <p>
                                                 {downloadingProgress}%
                                             </p>
