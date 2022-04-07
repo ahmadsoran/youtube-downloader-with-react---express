@@ -21,35 +21,30 @@ export default function DownloadContent() {
 
         }
     }
-    // let bodyContent = { url: downloadUrl, quality: selectQuality.value };
-    let bodyContent = `url=${downloadUrl}&quality=${selectQuality.value}`;
-    // let bodyContent = "url=https://www.youtube.com/watch?v=UA7NSpzG98syoutube.co&quality=22";
+    let bodyContent = { url: downloadUrl, quality: selectQuality.value };
 
-    let headersList = {
-        "Accept": "*/*",
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
 
 
 
     let reqOptions = {
         // url: "http://localhost:5000/download",
         url: "https://ytdl-download.herokuapp.com/download",
-        onDownloadProgress: (evt: any) => {
-            setDownloadingProgress(Math.round(evt.loaded / evt.total * 100))
-
-        },
         method: "POST",
-        headers: headersList,
         data: bodyContent,
-        responseType: "blob", // important
+        responseType: 'blob',
+        onDownloadProgress: (progressEvent: any) => {
+
+            let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+            setDownloadingProgress(percentCompleted)
+        },
     }
     const downloadVideoHandler = () => {
-        setDownloadingProgress(2)
 
 
-        axios.request(reqOptions as object).then(res => {
+        axios.request(reqOptions as object).then((res: any) => {
+            console.log(res);
             FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${selectQuality.vidype}`)
+            setDownloadingProgress(100)
         }).then(() => {
             setdownloadUrl('')
             setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
@@ -170,7 +165,9 @@ export default function DownloadContent() {
                                     </div>
                                     <div className="w-full h-4 bg-gray-400 rounded-full mt-3">
                                         <div className=" h-full text-center text-xs text-white bg-teal-700 rounded-full shadow-md shadow-teal-300" style={{ width: `${downloadingProgress}%` }}>
-                                            {downloadingProgress} %
+                                            <p>
+                                                {downloadingProgress}%
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
