@@ -23,6 +23,10 @@ export default function DownloadContent() {
     }
     // let bodyContent = { url: downloadUrl, quality: selectQuality.value };
     let bodyContent = `url=${downloadUrl}&quality=${selectQuality.value}`;
+    const platform = navigator.platform;
+    const isMac = platform.indexOf('Mac') > -1;
+    const isIphone = platform.indexOf('iPhone') > -1;
+    const isIpad = platform.indexOf('iPad') > -1;
 
 
 
@@ -123,17 +127,22 @@ export default function DownloadContent() {
                                     <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         {videoDownload && videoDownload?.videoQuality.map((quality: number | any, index: number) => {
                                             return (
-                                                <button key={index} value={quality.itag} onClick={downloadVideoQualityHandler} data-quality={quality?.qualityLabel ? quality?.qualityLabel : 'mp3'} data-vidype={quality.audioQuality ?
-                                                    quality?.qualityLabel ?
-                                                        '.mp4' :
-                                                        '.mp3' :
-                                                    '.mp4'} className=" w-full block px-4 py-2  text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
+                                                <button key={index} value={quality.itag} onClick={downloadVideoQualityHandler} data-quality={quality?.qualityLabel ? quality?.qualityLabel : 'mp3'}
+                                                    data-vidype={
+                                                        quality.audioQuality ?
+                                                            quality?.qualityLabel ?
+                                                                '.mp4' :
+                                                                '.mp3' :
+
+                                                            '.mp4'
+
+                                                    } className=" w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
 
                                                     {
                                                         quality.audioQuality ?
                                                             quality?.qualityLabel ?
-                                                                quality?.qualityLabel + ' with sound' :
-                                                                'audio only mp3' :
+                                                                quality?.qualityLabel + ' ' + quality.audioQuality :
+                                                                'audio only mp3 ' + quality.audioQuality :
                                                             quality.qualityLabel + ' no sound'
 
 
