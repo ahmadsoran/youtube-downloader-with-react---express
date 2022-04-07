@@ -21,8 +21,8 @@ export default function DownloadContent() {
 
         }
     }
-    let bodyContent = { url: downloadUrl, quality: selectQuality.value };
-
+    // let bodyContent = { url: downloadUrl, quality: selectQuality.value };
+    let bodyContent = `url=${downloadUrl}&quality=${selectQuality.value}`;
 
 
 
@@ -32,7 +32,8 @@ export default function DownloadContent() {
         method: "POST",
         data: bodyContent,
         headers: {
-            "Content-length": "0"
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded"
         },
         responseType: 'blob',
         onDownloadProgress: (progressEvent: any) => {
