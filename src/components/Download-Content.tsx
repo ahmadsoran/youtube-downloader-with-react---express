@@ -31,6 +31,9 @@ export default function DownloadContent() {
         url: "https://ytdl-download.herokuapp.com/download",
         method: "POST",
         data: bodyContent,
+        headers: {
+            "Content-length": "0"
+        },
         responseType: 'blob',
         onDownloadProgress: (progressEvent: any) => {
 
@@ -115,7 +118,7 @@ export default function DownloadContent() {
                                         </svg>
                                     </button>
                                 </div>
-                                <div className={`origin-top-right ${showQualityMenu ? '' : 'hidden'} absolute max-h-96 overflow-auto right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5`}>
+                                <div className={`origin-top-right ${showQualityMenu ? '' : 'hidden'} absolute max-h-96 z-50 overflow-auto right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5`}>
                                     <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         {videoDownload && videoDownload?.videoQuality.map((quality: number | any, index: number) => {
                                             return (
