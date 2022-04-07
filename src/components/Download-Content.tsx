@@ -33,7 +33,7 @@ export default function DownloadContent() {
 
 
     let reqOptions = {
-        url: "http://localhost:5000/download",
+        url: "https://ytdl-download.herokuapp.com",
         onDownloadProgress: (evt: any) => {
             setDownloadingProgress(Math.round(evt.loaded / evt.total * 100))
 
