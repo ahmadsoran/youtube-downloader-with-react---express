@@ -15,7 +15,7 @@ export default function DownloadContent() {
         setdownloadUrl(e.target.value)
         setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
         setErrMsg('');
-        if (e.target.value.length > 10) {
+        if (e.currentTarget.value.length > 10) {
 
             await sendUrl({ url: e.target.value })
 
