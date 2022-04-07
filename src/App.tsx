@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useAppSelector } from './app/hooks';
+import AllRoutes from './routes/AllRoutes';
+
 
 function App() {
+  const darkmode = useAppSelector((state) => state.DarkModeSlice.isDarkMode)
+  console.log(darkmode)
+  useEffect(() => {
+
+
+    if (darkmode === 'dark') {
+      document.querySelector('html')?.classList.add('dark');
+      document.querySelector('body')?.classList.add('dark:bg-slate-900');
+    }
+    else {
+      document.querySelector('html')?.classList.remove('dark');
+    }
+
+  }, [darkmode])
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AllRoutes />
   );
 }
 
