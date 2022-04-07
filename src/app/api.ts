@@ -5,7 +5,6 @@ export const appApi = createApi({
     reducerPath: 'appApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://ytdl-download.herokuapp.com',
-        // baseUrl: 'http://localhost:5000',
 
     }),
 
