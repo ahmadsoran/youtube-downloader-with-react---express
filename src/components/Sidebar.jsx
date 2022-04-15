@@ -90,7 +90,7 @@ export default function Sidebar() {
 
                         </div>
                         {
-                            !tokenExists ?
+                            !userFetchedData ?
                                 <div className="flex items-center justify-center mt-3">
                                     <Link to='/login' className='text-xl text-opacity-60 text-gray-800 dark:text-white'>SignIn</Link>
                                     <p className='mx-2 text-md text-opacity-50 dark:text-white text-gray-800'>or</p>
@@ -105,7 +105,7 @@ export default function Sidebar() {
                                 </div>}
                         <nav className="mt-10 pb-10 px-6 ">
                             {
-                                !tokenExists ? '' : <>
+                                !userFetchedData ? '' : <>
                                     <Link to='/' className={` hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200   rounded-lg ${locationPath === '/' ? 'bg-gray-100 dark:text-white dark:bg-opacity-10' : 'text-gray-600 dark:text-gray-400'} `} >
                                         <FontAwesomeIcon icon={faHome} />
                                         <span className="mx-4 text-lg font-normal">
@@ -138,27 +138,7 @@ export default function Sidebar() {
                                         </span>
 
                                     </Link>
-                                    <Link to='/about' className={` hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200   rounded-lg ${locationPath === '/about' ? 'bg-gray-100 dark:text-white dark:bg-opacity-10' : 'text-gray-600 dark:text-gray-400'} `} >
-                                        <FontAwesomeIcon icon={faQuestionCircle} />
-                                        <span className="mx-4 text-lg font-normal">
-                                            About
-                                        </span>
 
-                                    </Link>
-                                    <Link to='/contact' className={` hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200   rounded-lg ${locationPath === '/contact' ? 'bg-gray-100 dark:text-white dark:bg-opacity-10' : 'text-gray-600 dark:text-gray-400'} `} >
-                                        <FontAwesomeIcon icon={faContactCard} />
-                                        <span className="mx-4 text-lg font-normal">
-                                            Contact
-                                        </span>
-
-                                    </Link>
-                                    <Link to='/support' className={` hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200   rounded-lg ${locationPath === '/support' ? 'bg-gray-100 dark:text-white dark:bg-opacity-10' : 'text-gray-600 dark:text-gray-400'} `} >
-                                        <FontAwesomeIcon icon={faHandshake} />
-                                        <span className="mx-4 text-lg font-normal">
-                                            Supoort
-                                        </span>
-
-                                    </Link>
                                     <Link to='/' onClick={removeTokenHandler} className={` hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200   rounded-lg text-red-500 `} >
                                         <FontAwesomeIcon icon={faDoorOpen} />
                                         <span className="mx-4 text-lg font-normal">
@@ -169,6 +149,28 @@ export default function Sidebar() {
 
                                 </>
                             }
+
+                            <Link to='/about' className={` hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200   rounded-lg ${locationPath === '/about' ? 'bg-gray-100 dark:text-white dark:bg-opacity-10' : 'text-gray-600 dark:text-gray-400'} `} >
+                                <FontAwesomeIcon icon={faQuestionCircle} />
+                                <span className="mx-4 text-lg font-normal">
+                                    About
+                                </span>
+
+                            </Link>
+                            <Link to='/contact' className={` hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200   rounded-lg ${locationPath === '/contact' ? 'bg-gray-100 dark:text-white dark:bg-opacity-10' : 'text-gray-600 dark:text-gray-400'} `} >
+                                <FontAwesomeIcon icon={faContactCard} />
+                                <span className="mx-4 text-lg font-normal">
+                                    Contact
+                                </span>
+
+                            </Link>
+                            <Link to='/support' className={` hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200   rounded-lg ${locationPath === '/support' ? 'bg-gray-100 dark:text-white dark:bg-opacity-10' : 'text-gray-600 dark:text-gray-400'} `} >
+                                <FontAwesomeIcon icon={faHandshake} />
+                                <span className="mx-4 text-lg font-normal">
+                                    Supoort
+                                </span>
+
+                            </Link>
                             {
                                 darkmode === 'dark' ?
                                     <>

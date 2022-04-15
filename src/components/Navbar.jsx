@@ -20,16 +20,16 @@ export default function Navbar(props) {
                     </Link>
                 </div>
                 <div className="ml-10 hidden items-baseline space-x-4 md:flex">
-                    <Link to='/' className={`${locationPath === '/' ? 'text-white underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
+                    <Link to='/' className={`${locationPath === '/' ? 'dark:text-white text-black underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800  transition-all duration-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
                         Home
                     </Link>
-                    <Link to='/about' className={`${locationPath === '/about' ? 'text-white  underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
+                    <Link to='/about' className={`${locationPath === '/about' ? 'dark:text-white text-black underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 transition-all duration-300  dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
                         About
                     </Link>
-                    <Link to='/support' className={`${locationPath === '/support' ? 'text-white underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
+                    <Link to='/support' className={`${locationPath === '/support' ? 'dark:text-white text-black underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 transition-all duration-300  dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
                         Support
                     </Link>
-                    <Link to='/contact' className={`${locationPath === '/contact' ? 'text-white underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
+                    <Link to='/contact' className={`${locationPath === '/contact' ? 'dark:text-white text-black underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 transition-all duration-300  dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
                         Contact
                     </Link>
                 </div>
