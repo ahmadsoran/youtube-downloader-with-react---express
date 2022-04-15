@@ -35,11 +35,8 @@ export default function RegisterRoute() {
 
     };
 
-    let usernametErrDup = false;
-    if (error?.data?.error.includes("duplicate key ")) {
-        usernametErrDup = true
-    }
-    let usernametErr = isError && error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '').includes("allowed ")
+
+    let usernametErr = isError && error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '').includes("username")
     let emailInputErr = isError && error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '').includes('email')
     let passwordInputErr = isError && error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '').includes('password')
     let firstnameInputErr = isError && error.data.error.replace(/[&\\#,+()$~%.'"`:*?<>{}]/g, '').includes('firstName')
@@ -81,9 +78,8 @@ export default function RegisterRoute() {
                         </div>
                         <div className="flex gap-4 mb-2">
                             <div className=" relative ">
-                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium whitespace-nowrap  text-gray-700 dark:text-gray-400">
+                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium break-all  text-gray-700 dark:text-gray-400">
                                     {usernametErr ? error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '') : 'Username'}
-                                    {usernametErrDup && 'username already exists '}
 
                                 </label>
                                 <input type="text" minLength={5} required onChange={inputDataHandler} className={` rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 ${usernametErr ? 'bg-red-500' : 'bg-white'} text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent`} name="userName" placeholder="Username" />
@@ -91,7 +87,7 @@ export default function RegisterRoute() {
                         </div>
                         <div className="flex flex-col mb-2">
                             <div className=" relative ">
-                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium whitespace-nowrap  text-gray-700 dark:text-gray-400">
+                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium break-all  text-gray-700 dark:text-gray-400">
                                     {phoneInputErr ? error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '') : 'Phone number OPTIONAL'}
 
                                 </label>
@@ -100,7 +96,7 @@ export default function RegisterRoute() {
                         </div>
                         <div className="flex flex-col mb-2">
                             <div className=" relative ">
-                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium whitespace-nowrap  text-gray-700 dark:text-gray-400">
+                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium break-all  text-gray-700 dark:text-gray-400">
 
                                     {emailInputErr ? error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '') : 'Email'}
 
@@ -110,7 +106,7 @@ export default function RegisterRoute() {
                         </div>
                         <div className="flex flex-col mb-2">
                             <div className=" relative ">
-                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium whitespace-nowrap  text-gray-700 dark:text-gray-400">
+                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium break-all  text-gray-700 dark:text-gray-400">
 
                                     {passwordInputErr ? error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '') : 'Password'}
 
