@@ -74,10 +74,12 @@ export default function RegisterRoute() {
                         <div className="flex gap-4 mb-2">
                             <div className=" relative ">
                                 <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-400">
-                                    {firstnameInputErr ? error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '') : 'First Name'}
+                                    {firstnameInputErr ? error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '') : 'Name'}
                                 </label>
-                                <input type="text" required onChange={inputDataHandler} className={` rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 ${firstnameInputErr ? 'bg-red-500' : 'bg-white'} text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent`} name="firstName" placeholder="First name" />
+                                <input type="text" required onChange={inputDataHandler} className={` rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 ${firstnameInputErr ? 'bg-red-500' : 'bg-white'} text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent`} name="firstName" placeholder="name" />
                             </div>
+                        </div>
+                        <div className="flex gap-4 mb-2">
                             <div className=" relative ">
                                 <label htmlFor="firstName" className="block mb-2 text-sm font-medium whitespace-nowrap  text-gray-700 dark:text-gray-400">
                                     {usernametErr ? error.data.error.replace(/[&\\#,+()$~%.'":*?<>{}]/g, '') : 'Username'}
