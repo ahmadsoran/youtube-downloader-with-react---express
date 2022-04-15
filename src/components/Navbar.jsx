@@ -1,9 +1,11 @@
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function Navbar(props) {
+    const locationPath = useLocation().pathname;
+
     return (
         <div className={`dark:bg-gray-800 w-full transition-all ${props.opacity}`}>
             <div className="flex justify-between items-center py-3 px-5 w-full">
@@ -18,16 +20,16 @@ export default function Navbar(props) {
                     </Link>
                 </div>
                 <div className="ml-10 hidden items-baseline space-x-4 md:flex">
-                    <Link to='/' className="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium" >
+                    <Link to='/' className={`${locationPath === '/' ? 'text-white underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
                         Home
                     </Link>
-                    <Link to='/about' className="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2  rounded-md text-sm font-medium" >
+                    <Link to='/about' className={`${locationPath === '/about' ? 'text-white  underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
                         About
                     </Link>
-                    <Link to='/support' className="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium" >
+                    <Link to='/support' className={`${locationPath === '/support' ? 'text-white underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
                         Support
                     </Link>
-                    <Link to='/contact' className="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium" >
+                    <Link to='/contact' className={`${locationPath === '/contact' ? 'text-white underline underline-offset-2' : 'text-gray-300'}  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`} >
                         Contact
                     </Link>
                 </div>

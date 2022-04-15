@@ -219,7 +219,7 @@ export default function DownloadContent() {
                                 <div className="bg-white dark:bg-slate-700 rounded-lg w-72 shadow block p-4 m-auto">
                                     <div>
                                         <span className="text-xs font-light inline-block p-2  uppercase rounded-full text-white  bg-teal-700">
-                                            Your download should be in downloads folder
+                                            Downloading... be patient
                                         </span>
                                     </div>
                                     <div className="w-full h-4 relative bg-gray-400 rounded-full mt-3">
