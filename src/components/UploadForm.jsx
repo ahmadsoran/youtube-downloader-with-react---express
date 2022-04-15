@@ -20,7 +20,6 @@ export default function UploadForm() {
     if (isSuccess) {
         return window.location.reload()
     }
-    console.log(error);
     return (
         <form className="mt-8 space-y-3 -translate-y-10 z-10 bg-slate-50  mx-5 w-50  dark:bg-slate-800 px-5 py-2 rounded-lg">
 

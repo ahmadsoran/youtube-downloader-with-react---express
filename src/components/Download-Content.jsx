@@ -68,7 +68,6 @@ export default function DownloadContent() {
 
     const downloadVideoHandler = () => {
         setDownloadingProgress(1)
-        console.log(reqOptions.data)
 
 
         axios.request(reqOptions).then((res) => {
