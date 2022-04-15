@@ -13,6 +13,7 @@ export default function DownloadContent() {
     const [downloadUrl, setdownloadUrl] = useState('')
     const [selectQuality, setSelectQuality] = useState({ value: 0, dataQuality: undefined, vidype: '' })
     const [showQualityMenu, setShowQualityMenu] = useState(false)
+    const [isDownloading, setIsDownloading] = useState(false)
     const [errMsg, setErrMsg] = useState('')
     const [downloadingProgress, setDownloadingProgress] = useState(0)
     const dispatch = useDispatch()
@@ -67,8 +68,7 @@ export default function DownloadContent() {
     // Options are optional. You can pass an array of options, too.
 
     const downloadVideoHandler = () => {
-        setDownloadingProgress(1)
-
+        setIsDownloading(true)
 
         axios.request(reqOptions).then((res) => {
             if (res.status >= 200 && res.status < 300) {
@@ -109,14 +109,19 @@ export default function DownloadContent() {
 
 
     useEffect(() => {
-        if (downloadingProgress === 100) {
-            setTimeout(() => {
-                setDownloadingProgress(0);
-            }, 3500);
-        }
         if (errMsg !== '') {
-            setDownloadingProgress(0);
+            setIsDownloading(false);
 
+
+        }
+        if (downloadingProgress >= 100) {
+            const timeOuts = setTimeout(() => {
+                setIsDownloading(false);
+            }, 3500);
+
+            return () => {
+                clearTimeout(timeOuts)
+            }
         }
 
 
@@ -212,7 +217,7 @@ export default function DownloadContent() {
                 <div className=" w-full  col-span-2 lg:col-span-1 justify-center flex ">
                     <AnimatePresence>
 
-                        {downloadingProgress !== 0 ?
+                        {isDownloading ?
 
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className='fixed  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
                                 <div className="bg-white dark:bg-slate-700 rounded-lg w-72 shadow block p-4 m-auto">
