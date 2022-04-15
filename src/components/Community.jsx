@@ -17,7 +17,7 @@ export default function Community() {
         {
             user &&
 
-            <div className="w-full  p-12">
+            <div className="w-full p-4 sm:p-12">
                 <div className="header grid grid-cols-1 md:grid-cols-2 mb-12">
                     <div className="title md:text-left text-center">
                         <p className="text-4xl  font-bold text-gray-800 dark:text-slate-50 mb-4">
@@ -47,7 +47,7 @@ export default function Community() {
 
                         return (
 
-                            <div key={i} className="flex flex-col sm:flex-row justify-between mx-4 md:mx-0 lg:-mx-2 flex-wrap">
+                            <div key={i} className="flex flex-col sm:flex-row justify-between  md:mx-0 lg:-mx-2 flex-wrap">
                                 <div className="rounded overflow-hidden shadow-lg flex-1 bg-slate-50 dark:bg-slate-800 sm:mx-2 md:mx-1 lg:mx-2 w-full sm:w-1/3 lg:pt-0 border-b-4 border-blue-500 mb-10 flex flex-col">
                                     <img src={user.thumbnail} alt="People" className="w-full object-cover h-32 sm:h-48 " />
                                     <div className="p-4 md:p-6 bg-slate-50 dark:bg-slate-800 flex flex-col justify-between flex-1">
