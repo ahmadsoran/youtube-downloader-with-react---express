@@ -4,8 +4,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useUserLoginMutation } from '../app/api'
 import { setToken } from '../features/tokenSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import Spiner from '../components/spiner'
 export default function LoginRoute() {
-    const [loginToAccount, { data: loginData, isError }] = useUserLoginMutation();
+    const [loginToAccount, { data: loginData, isError, isLoading }] = useUserLoginMutation();
     const [inputInfo, setinputInfo] = useState({})
     const locations = useNavigate()
     const tokenExists = useSelector(state => state.tokenSlice.token)
@@ -78,9 +79,15 @@ export default function LoginRoute() {
                         </div>
                         <p className="text-md text-red-500">{isError && 'password or username incorrect'}</p>
                         <div className="flex w-full my-4">
-                            <button type="submit" className="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
-                                Login
-                            </button>
+                            {isLoading ?
+                                <button type="button" disabled className="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                                    <Spiner />
+                                </button>
+                                :
+                                <button type="submit" className="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                                    Login
+                                </button>
+                            }
                         </div>
                     </form>
 

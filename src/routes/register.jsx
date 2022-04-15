@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useUserRegisterMutation } from '../app/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
+import Spiner from '../components/spiner'
 export default function RegisterRoute() {
     const [sendUserData, { isSuccess, isError, error, isLoading }] = useUserRegisterMutation()
     const [inputInfo, setinputInfo] = useState({})
@@ -121,7 +122,7 @@ export default function RegisterRoute() {
                             {isLoading ?
 
                                 <button disabled className="py-2 px-4  bg-purple-600 opacity-70  focus:ring-offset-purple-200 text-white w-full cursor-wait  rounded-lg ">
-                                    Loading...
+                                    <Spiner />
                                 </button>
                                 :
                                 <button type="submit" onClick={handleSubmit} className="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
