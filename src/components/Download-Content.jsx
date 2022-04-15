@@ -49,8 +49,8 @@ export default function DownloadContent() {
 
 
     let reqOptions = {
-        url: "http://localhost:5000/download",
-        // url: "https://ytdl-download.herokuapp.com/download",
+        // url: "http://localhost:5000/download",
+        url: "https://ytdl-download.herokuapp.com/download",
         method: "POST",
         data: bodyContent,
         headers: {
