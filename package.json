@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "ytdl",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,36 +7,28 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@reduxjs/toolkit": "^1.8.1",
-    "@testing-library/jest-dom": "^5.16.3",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^16.11.26",
-    "@types/react": "^17.0.43",
-    "@types/react-dom": "^17.0.14",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
     "axios": "^0.26.1",
-    "framer-motion": "^6.2.8",
+    "framer-motion": "^6.2.9",
     "js-file-download": "^0.4.12",
+    "moment": "^2.29.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^7.2.8",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.0",
-    "typescript": "^4.6.3",
-    "web-vitals": "^2.1.4"
+    "react-scripts": "5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "startTailwind": "npx tailwindcss -i ./src/index.css -o ./src/dist/output.css --watch",
     "build": "react-scripts build",
+    "startTailwind": "npx tailwindcss -i ./src/index.css -o ./src/dist/output.css --watch",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -51,6 +43,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.23"

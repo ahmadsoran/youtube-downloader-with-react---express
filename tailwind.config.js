@@ -1,4 +1,11 @@
 module.exports = {
+  content: [],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+module.exports = {
   important: true,
   // Active dark mode on class basis
   darkMode: "class",

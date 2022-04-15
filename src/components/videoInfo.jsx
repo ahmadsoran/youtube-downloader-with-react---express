@@ -1,16 +1,6 @@
 import React from 'react'
-interface VideoInfoProps {
-    imgSrc: string,
-    title: string,
-    channelName: string,
-    subscribers: number,
-    views: string,
-    description: string,
-    chaneelImgUrl: string,
 
-
-}
-export default function VideoInfo(props: VideoInfoProps) {
+export default function VideoInfo(props) {
     return (
 
         <div className="overflow-hidden shadow-lg rounded-lg h-90 w-full mx-5 md:w-96 my-5  m-auto">

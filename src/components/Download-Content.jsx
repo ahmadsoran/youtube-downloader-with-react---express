@@ -1,26 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import { useGetVideoInfoMutation } from '../app/api'
+import { useGetUserDataQuery, useGetVideoInfoMutation, useUserDownloadsMutation } from '../app/api'
 import VideoInfo from './videoInfo'
 import { AnimatePresence, motion } from 'framer-motion'
 import axios from 'axios'
 import FD from 'js-file-download'
+import { removeToken } from '../features/tokenSlice'
+import { useDispatch } from 'react-redux'
 export default function DownloadContent() {
-    const [sendUrl, { data: videoDownload }] = useGetVideoInfoMutation();
+    const [sendUrl, { data: videoDownload, isError }] = useGetVideoInfoMutation();
+    const { error: userDat } = useGetUserDataQuery()
+    const [sendDownloadInfo] = useUserDownloadsMutation();
     const [downloadUrl, setdownloadUrl] = useState('')
     const [selectQuality, setSelectQuality] = useState({ value: 0, dataQuality: undefined, vidype: '' })
     const [showQualityMenu, setShowQualityMenu] = useState(false)
     const [errMsg, setErrMsg] = useState('')
     const [downloadingProgress, setDownloadingProgress] = useState(0)
-    const inputUrlValueHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dispatch = useDispatch()
+    const inputUrlValueHandler = async (e) => {
         setdownloadUrl(e.target.value)
         setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
         setErrMsg('');
         if (e.currentTarget.value.length > 10) {
 
-            await sendUrl({ url: e.target.value })
+            await sendUrl({ url: e.currentTarget.value }).unwrap();
 
         }
     }
+
     // let bodyContent = { url: downloadUrl, quality: selectQuality.value };
     let bodyContent = `url=${downloadUrl}&quality=${selectQuality.value}`;
     const platform = navigator.platform;
@@ -29,10 +35,22 @@ export default function DownloadContent() {
     const isIpad = platform.indexOf('iPad') > -1;
 
 
+    function formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
 
     let reqOptions = {
-        // url: "http://localhost:5000/download",
-        url: "https://ytdl-download.herokuapp.com/download",
+        url: "http://localhost:5000/download",
+        // url: "https://ytdl-download.herokuapp.com/download",
         method: "POST",
         data: bodyContent,
         headers: {
@@ -40,26 +58,34 @@ export default function DownloadContent() {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         responseType: 'blob',
-        onDownloadProgress: (progressEvent: any) => {
+        onDownloadProgress: (progressEvent) => {
 
             let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setDownloadingProgress(percentCompleted)
         },
     }
+    // Options are optional. You can pass an array of options, too.
+
     const downloadVideoHandler = () => {
+        setDownloadingProgress(1)
+        console.log(reqOptions.data)
 
 
-        axios.request(reqOptions as object).then((res: any) => {
-            console.log(res);
-            FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${isIpad || isIphone || isMac ? '.MOV' : selectQuality.vidype}`)
-            setDownloadingProgress(100)
+        axios.request(reqOptions).then((res) => {
+            if (res.status >= 200 && res.status < 300) {
+                FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${selectQuality.vidype}`)
+                setDownloadingProgress(100)
+            }
+
+
         }).then(() => {
             setdownloadUrl('')
             setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
+            sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap();
 
         }).catch(err => {
             if (err.message === 'Request failed with status code 400') {
-                setErrMsg(err.message + '  please make sure the url is correct & quality selected');
+                setErrMsg(err.message + '  please make sure the url is correct & quality selected... ,if you already selected its mean we colud not access the video route on youtube some of quality require authorization  please try another quality');
 
             }
             else {
@@ -72,8 +98,8 @@ export default function DownloadContent() {
 
 
     }
-    const downloadVideoQualityHandler = (e: any) => {
-        setSelectQuality({ value: Number(e.target.value), dataQuality: e.target.dataset.quality, vidype: e.target.dataset.vidype })
+    const downloadVideoQualityHandler = (e) => {
+        setSelectQuality({ value: e.target.value, dataQuality: e.target.dataset.quality, vidype: e.target.dataset.vidype })
         setShowQualityMenu(!showQualityMenu)
         setErrMsg('')
 
@@ -96,6 +122,13 @@ export default function DownloadContent() {
 
 
     }, [downloadingProgress, errMsg])
+    useEffect(() => {
+        if (userDat?.data?.error && userDat?.data?.error === 'user id not found') {
+            dispatch(removeToken('token'))
+            window.location.reload()
+
+        }
+    }, [userDat?.data?.error]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className='h-100'>
@@ -123,27 +156,40 @@ export default function DownloadContent() {
                                         </svg>
                                     </button>
                                 </div>
-                                <div className={`origin-top-right ${showQualityMenu ? '' : 'hidden'} absolute max-h-96 z-50 overflow-auto right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5`}>
+                                <div className={`origin-top-right ${showQualityMenu ? '' : 'hidden'} absolute max-h-96 z-10 overflow-auto right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5`}>
                                     <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                        {videoDownload && videoDownload?.videoQuality.map((quality: number | any, index: number) => {
+                                        {videoDownload && videoDownload?.videoQuality.map((quality, index) => {
                                             return (
-                                                <button key={index} value={quality.itag} onClick={downloadVideoQualityHandler} data-quality={quality?.qualityLabel ? quality?.qualityLabel : 'mp3'}
+                                                <button key={index} value={quality.itag} onClick={downloadVideoQualityHandler}
+
+                                                    data-quality={quality?.qualityLabel ? quality?.qualityLabel : 'mp3'}
                                                     data-vidype={
-                                                        quality.audioQuality ?
-                                                            quality?.qualityLabel ?
-                                                                '.mp4' :
-                                                                '.mp3' :
+                                                        isMac || isIphone || isIpad ?
+                                                            quality.audioQuality ?
+                                                                quality?.qualityLabel ?
+                                                                    '.MOV' :
+                                                                    '.mp3' :
 
-                                                            '.mp4'
+                                                                '.MOV'
 
-                                                    } className=" w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
+
+                                                            :
+                                                            quality.audioQuality ?
+                                                                quality?.qualityLabel ?
+                                                                    '.mp4' :
+                                                                    '.mp3' :
+
+                                                                '.mp4'
+                                                    }
+
+                                                    className=" w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
 
                                                     {
                                                         quality.audioQuality ?
                                                             quality?.qualityLabel ?
-                                                                quality?.qualityLabel + ' ' + quality.audioQuality :
-                                                                'audio only mp3 ' + quality.audioQuality :
-                                                            quality.qualityLabel + ' no sound'
+                                                                `${quality?.qualityLabel} ${quality.audioQuality} ${formatBytes(quality.videoSizes)}` :
+                                                                `audio only mp3 ${quality.audioQuality}  ${formatBytes(quality.videoSizes)}` :
+                                                            `${quality.qualityLabel} no sound  ${formatBytes(quality.videoSizes)}`
 
 
                                                     }
@@ -173,11 +219,11 @@ export default function DownloadContent() {
                                 <div className="bg-white dark:bg-slate-700 rounded-lg w-72 shadow block p-4 m-auto">
                                     <div>
                                         <span className="text-xs font-light inline-block p-2  uppercase rounded-full text-white  bg-teal-700">
-                                            Download in progress please be patient
+                                            Your download should be in downloads folder
                                         </span>
                                     </div>
-                                    <div className="w-full h-4 bg-gray-400 rounded-full mt-3">
-                                        <div className=" h-full text-center text-xs text-white bg-teal-700 rounded-full shadow-sm shadow-teal-300" style={{ width: `${downloadingProgress}%` }}>
+                                    <div className="w-full h-4 relative bg-gray-400 rounded-full mt-3">
+                                        <div className=" h-full absolute text-center text-xs text-white bg-teal-700 rounded-full shadow-sm shadow-teal-300" style={{ width: `${downloadingProgress}%` }}>
                                             <p>
                                                 {downloadingProgress}%
                                             </p>
@@ -198,10 +244,8 @@ export default function DownloadContent() {
                 </div>
 
             </div>
-            {
-                errMsg &&
-                <p className='text-red-500 text-center'>{errMsg}</p>
-            }
+            {errMsg && <p className='text-red-500 text-center'>{errMsg}</p>}
+            {isError && <p className='text-red-500 text-center'>no data found </p>}
             <AnimatePresence>
 
 

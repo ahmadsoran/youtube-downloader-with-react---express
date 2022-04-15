@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { useAppSelector } from './app/hooks';
-import AllRoutes from './routes/AllRoutes';
+import { useSelector } from 'react-redux';
+import AllRoutes from './routes/Route.jsx';
 
 
 function App() {
-  const darkmode = useAppSelector((state) => state.DarkModeSlice.isDarkMode)
-  console.log(darkmode)
+  const darkmode = useSelector((state) => state.DarkModeSlice.isDarkMode)
   useEffect(() => {
 
 
@@ -22,9 +21,7 @@ function App() {
 
 
 
-  return (
-    <AllRoutes />
-  );
+  return <AllRoutes />
 }
 
 export default App;
