@@ -72,17 +72,20 @@ export default function DownloadContent() {
 
         axios.request(reqOptions).then((res) => {
             if (res.status >= 200 && res.status < 300) {
-                FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${selectQuality.vidype}`)
-                setDownloadingProgress(100)
+                sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap().then(() => {
+                    ;
+
+                    FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${selectQuality.vidype}`)
+                    setDownloadingProgress(100)
+                }).catch(err => {
+                    console.log(err)
+                })
             }
 
 
         }).then(() => {
-            sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap().then(() => {
-                setdownloadUrl('')
-                setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
-
-            });
+            setdownloadUrl('')
+            setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
 
         }).catch(err => {
             if (err.message === 'Request failed with status code 400') {
