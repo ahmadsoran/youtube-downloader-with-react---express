@@ -77,10 +77,12 @@ export default function DownloadContent() {
             }
 
 
-        }).then(async () => {
-            await sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap();
-            setdownloadUrl('')
-            setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
+        }).then(() => {
+            sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap().then(() => {
+                setdownloadUrl('')
+                setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
+
+            });
 
         }).catch(err => {
             if (err.message === 'Request failed with status code 400') {
