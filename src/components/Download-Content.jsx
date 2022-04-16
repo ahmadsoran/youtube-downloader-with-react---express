@@ -77,8 +77,8 @@ export default function DownloadContent() {
             }
 
 
-        }).then(() => {
-            sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap();
+        }).then(async () => {
+            await sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap();
             setdownloadUrl('')
             setSelectQuality({ value: 0, dataQuality: undefined, vidype: '' })
 
