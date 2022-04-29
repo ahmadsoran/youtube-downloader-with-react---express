@@ -8,7 +8,7 @@ import { removeToken } from '../features/tokenSlice'
 import { useDispatch } from 'react-redux'
 export default function DownloadContent() {
     const [sendUrl, { data: videoDownload, isError }] = useGetVideoInfoMutation();
-    const { error: userDat } = useGetUserDataQuery()
+    const { error: userDat, data } = useGetUserDataQuery()
     const [sendDownloadInfo] = useUserDownloadsMutation();
     const [downloadUrl, setdownloadUrl] = useState('')
     const [selectQuality, setSelectQuality] = useState({ value: 0, dataQuality: undefined, vidype: '' })
@@ -72,14 +72,19 @@ export default function DownloadContent() {
 
         axios.request(reqOptions).then((res) => {
             if (res.status >= 200 && res.status < 300) {
-                sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap().then(() => {
-                    ;
+                if (data) {
+                    sendDownloadInfo({ videoUrl: downloadUrl, thumbnail: videoDownload && videoDownload?.videoThumbnail[0].url, title: videoDownload && videoDownload?.videoTitle }).unwrap().then(() => {
+                        FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${selectQuality.vidype}`)
+                        setDownloadingProgress(100)
+                    }).catch(err => {
+                        console.log(err)
+                    })
 
+                }
+                else {
                     FD(res.data, `${videoDownload && videoDownload?.videoTitle + selectQuality.dataQuality}${selectQuality.vidype}`)
                     setDownloadingProgress(100)
-                }).catch(err => {
-                    console.log(err)
-                })
+                }
             }
 
 
